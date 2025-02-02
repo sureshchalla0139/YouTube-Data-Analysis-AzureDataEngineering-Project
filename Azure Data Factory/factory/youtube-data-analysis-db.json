@@ -1,0 +1,9 @@
+{
+	"name": "youtube-data-analysis-db",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "35ebfca0-f62d-4bfe-b2df-8b1f25e83c42",
+		"tenantId": "fdc798aa-6f15-4e72-bf4a-6c813690fc75"
+	}
+}
