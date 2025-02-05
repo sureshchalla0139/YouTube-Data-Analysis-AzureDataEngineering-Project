@@ -1,0 +1,20 @@
+{
+	"name": "DS_CSV_PARQUEST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "transformed-data/raw-statistics",
+				"fileSystem": "youtube-data-analysis"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
