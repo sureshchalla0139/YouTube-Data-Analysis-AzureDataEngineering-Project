@@ -27,7 +27,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "CPY_RAW_DATA",
+						"name": "CPY_RAW_JSON_DATA",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -131,6 +131,266 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "CPY_RAW_CSV_DATA",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "CPY_RAW_JSON_DATA",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "video_id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "video_id",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "trending_date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "trending_date",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "title",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "title",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "channel_title",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "channel_title",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "category_id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "category_id",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "publish_time",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "publish_time",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "tags",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "tags",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "views",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "views",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "likes",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "likes",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "dislikes",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dislikes",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "comment_count",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "comment_count",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "thumbnail_link",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "thumbnail_link",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "comments_disabled",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "comments_disabled",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "ratings_disabled",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ratings_disabled",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "video_error_or_removed",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "video_error_or_removed",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_CSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_CSV_PARQUEST",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -140,7 +400,131 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_JSON')]",
-				"[concat(variables('factoryId'), '/datasets/DS_PARQUET')]"
+				"[concat(variables('factoryId'), '/datasets/DS_PARQUET')]",
+				"[concat(variables('factoryId'), '/datasets/DS_CSV')]",
+				"[concat(variables('factoryId'), '/datasets/DS_CSV_PARQUEST')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_CSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "raw-statistics",
+						"fileSystem": "youtube-data-analysis"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "video_id",
+						"type": "String"
+					},
+					{
+						"name": "trending_date",
+						"type": "String"
+					},
+					{
+						"name": "title",
+						"type": "String"
+					},
+					{
+						"name": "channel_title",
+						"type": "String"
+					},
+					{
+						"name": "category_id",
+						"type": "String"
+					},
+					{
+						"name": "publish_time",
+						"type": "String"
+					},
+					{
+						"name": "tags",
+						"type": "String"
+					},
+					{
+						"name": "views",
+						"type": "String"
+					},
+					{
+						"name": "likes",
+						"type": "String"
+					},
+					{
+						"name": "dislikes",
+						"type": "String"
+					},
+					{
+						"name": "comment_count",
+						"type": "String"
+					},
+					{
+						"name": "thumbnail_link",
+						"type": "String"
+					},
+					{
+						"name": "comments_disabled",
+						"type": "String"
+					},
+					{
+						"name": "ratings_disabled",
+						"type": "String"
+					},
+					{
+						"name": "video_error_or_removed",
+						"type": "String"
+					},
+					{
+						"name": "description",
+						"type": "String"
+					},
+					{
+						"name": "region",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_CSV_PARQUEST')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "transformed-data/raw-statistics",
+						"fileSystem": "youtube-data-analysis"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS')]"
 			]
 		},
 		{
