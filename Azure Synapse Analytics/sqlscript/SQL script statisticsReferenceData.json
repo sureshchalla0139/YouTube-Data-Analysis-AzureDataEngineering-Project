@@ -1,5 +1,5 @@
 {
-	"name": "SQL script 1",
+	"name": "SQL script statisticsReferenceData",
 	"properties": {
 		"content": {
 			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://youtube-data-analysis@adlsgen2youtube.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE [dbo].[statisticsReferenceData] (\n\t[id] int,\n\t[title] nvarchar(4000),\n\t[category] nvarchar(4000),\n\t[Platform] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = 'analytical-data/statisticsReferenceData/**',\n\tDATA_SOURCE = [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM [dbo].[statisticsReferenceData]\nGO",
