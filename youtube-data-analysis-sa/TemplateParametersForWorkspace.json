@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "youtube-data-analysis-sa"
+		},
+		"youtube-data-analysis-sa-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:youtube-data-analysis-sa.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"youtube-data-analysis-sa-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://adlsgen2youtube.dfs.core.windows.net"
+		}
+	}
+}
