@@ -152,6 +152,26 @@
 				"type": "SqlQuery"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script External Tables')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Qwerty@321';\n\nCREATE DATABASE SCOPED CREDENTIAL [ADLSCredential]\nWITH IDENTITY = 'Managed Identity';\n\n\nSELECT * FROM sys.external_data_sources;\nSELECT * FROM sys.database_scoped_credentials;\n\n\n\nIF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://youtube-data-analysis@adlsgen2youtube.dfs.core.windows.net',\n\t\tCREDENTIAL = [ADLSCredential]\n\t)\nGO\n\nCREATE EXTERNAL TABLE [dbo].[region_mst] (\n\t[region_code] varchar(5),\n\t[country_name] varchar(100),\n\t[continent] varchar(100)\n\t)\n\tWITH (\n\tLOCATION = 'analytical-data/region_mst/**',\n\tDATA_SOURCE = [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT  * FROM [dbo].[region_mst]\nGO\n\nCREATE EXTERNAL TABLE [dbo].[statisticsData] (\n\t[title] nvarchar(4000),\n\t[channel_title] nvarchar(4000),\n\t[views] int,\n\t[likes] int,\n\t[dislikes] int,\n\t[comment_count] int,\n\t[comments_disabled] nvarchar(4000),\n\t[ratings_disabled] nvarchar(4000),\n\t[video_error_or_removed] nvarchar(4000),\n\t[publish_time] datetime2(7),\n\t[publish_date] date,\n\t[trending_date] date,\n\t[published_time] int,\n\t[time_period] nvarchar(4000),\n\t[publish_week_of_month] int,\n\t[trend_week_of_month] int,\n\t[trending_IN] int,\n\t[tags] nvarchar(4000),\n\t[description] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = 'analytical-data/statisticsData/**',\n\tDATA_SOURCE = [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT  count(1) FROM [dbo].[statisticsData]\nGO\n\n\nCREATE EXTERNAL TABLE [dbo].[statisticsReferenceData] (\n\t[id] int,\n\t[title] nvarchar(4000),\n\t[category] nvarchar(4000),\n\t[Platform] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = 'analytical-data/statisticsReferenceData/**',\n\tDATA_SOURCE = [youtube-data-analysis_adlsgen2youtube_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM [dbo].[statisticsReferenceData]\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "youtube-data-analytics",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
