@@ -1,0 +1,17 @@
+{
+	"name": "SQL Script Veiw",
+	"properties": {
+		"content": {
+			"query": "CREATE VIEW youtubeStatistics\nAS\nSELECT [title]\n,[channel_title]\n,[views]\n,[likes]\n,[dislikes]\n,[comment_count]\n,[comments_disabled]\n,[ratings_disabled]\n,[video_error_or_removed]\n,[publish_time]\n,[publish_date]\n,[trending_date]\n,[published_time]\n,[time_period]\n,[publish_week_of_month]\n,[trend_week_of_month]\n,[trending_IN]\n\n FROM [dbo].[statisticsData]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "youtube-data-analytics",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
